@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ba-status-board-first-merge
+  namespace: deployflow-test
+  labels: &id001
+    app.kubernetes.io/name: ba-status-board-first-merge
+    app.kubernetes.io/managed-by: deployflow
+    app.kubernetes.io/instance: 5c5edd05-2d54-4ba7-a659-22d7bd54ee4c
+spec:
+  type: ClusterIP
+  selector: *id001
+  ports:
+  - name: http
+    port: 3201
+    targetPort: http
