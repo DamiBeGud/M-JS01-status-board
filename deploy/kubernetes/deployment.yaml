@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: df-m-js01-status-board-e0d468bac9d6437f
+  namespace: deployflow-test
+  labels: &id001
+    app.kubernetes.io/name: df-m-js01-status-board-e0d468bac9d6437f
+    app.kubernetes.io/managed-by: deployflow
+    app.kubernetes.io/instance: e0d468ba-c9d6-437f-80d6-a2ae33ed9062
+spec:
+  replicas: 1
+  selector:
+    matchLabels: *id001
+  template:
+    metadata:
+      labels: *id001
+      annotations:
+        deployflow.io/config-sha256: be33c019fce29f54a504c2d0687cb54a2342644e82c77ced176275ff9f7abfa9
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: df-m-js01-status-board-e0d468bac9d6437f
+        image: ghcr.io/damibegud/m-js01-status-board:5263dd9e49e7f9b6173ae374679a5cc9ceae2c88
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3201
+          name: http
+        envFrom:
+        - configMapRef:
+            name: df-m-js01-status-board-e0d468bac9d6437f-config
+        env: []
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        readinessProbe:
+          httpGet:
+            path: /live
+            port: http
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: http
