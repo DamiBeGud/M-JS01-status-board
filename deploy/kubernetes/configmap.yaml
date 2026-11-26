@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ba-pilot-js01-agent-20261126-config
+  namespace: deployflow-test
+  labels:
+    app.kubernetes.io/name: ba-pilot-js01-agent-20261126
+    app.kubernetes.io/managed-by: deployflow
+    app.kubernetes.io/instance: 44124f2b-2982-4736-b303-aa93d2574c9a
+data:
+  PORT: '3201'
+  HOST: 0.0.0.0
+  NODE_ENV: production
